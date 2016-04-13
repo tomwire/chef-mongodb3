@@ -7,13 +7,13 @@
 * Install and configure the mongod (or configure the config server for shard cluster)
 * Install and configure the mongos
  * Also, mongos configure the mongos service with runit : `service mongos start|stop|restart|status` 
-* Install the MMS Automation Agent
-* Install the MMS Monitoring Agent
+* Install and configure the MMS Automation Agent
+* Install and configure the MMS Monitoring Agent
 
 ### NOTICE :
 
 * Current version is not supporting automation and monitoring mms agent installation for Debian 7.8
-* MongoDB 3.2.1 is default version of mongodb3 cookbook
+* MongoDB 3.2.4 is default version of mongodb3 cookbook
 
 ### Contributors
 
@@ -24,6 +24,8 @@
 * Constantin Guay - [@Cog-g](https://github.com/Cog-g)
 * Julien Pervillé - [@jperville](https://github.com/jperville)
 * Daniel Doubrov - [@dblock](https://github.com/dblock)
+* Damien Raude-Morvan - [@drazzib](https://github.com/drazzib)
+
 
 ## Supported Platforms
 
@@ -304,19 +306,43 @@ default['mongodb3']['config']['mongos']['sharding']['configDB'] = nil
 default['mongodb3']['config']['mongos']['sharding']['chunkSize'] = 64 # default : 64
 ```
 
-### MMS Automation Agent
+### MMS Automation/Monitoring Agent
 
-* This cookbook is not manage the `mmsBaseUrl`, `logFile` and `mmsConfigBackup` configuration.
+#### Common configuration attributes for both automation and monitoring agent.
+```
+default['mongodb3']['config']['mms']['mmsApiKey'] = nil
+default['mongodb3']['config']['mms']['mmsBaseUrl'] = 'https://api-agents.mongodb.com'
+default['mongodb3']['config']['mms']['httpProxy'] = nil
+default['mongodb3']['config']['mms']['krb5ConfigLocation'] = nil
+default['mongodb3']['config']['mms']['sslTrustedMMSServerCertificate'] = nil
+default['mongodb3']['config']['mms']['sslRequireValidMMSServerCertificates'] = nil
+```
 
+#### Attributes for automation agent.
+https://docs.opsmanager.mongodb.com/current/reference/automation-agent
 ```
 default['mongodb3']['config']['mms']['mmsGroupId'] = nil
-default['mongodb3']['config']['mms']['mmsApiKey'] = nil
+default['mongodb3']['config']['mms']['logFile'] = '/var/log/mongodb-mms-automation/automation-agent.log'
+default['mongodb3']['config']['mms']['mmsConfigBackup'] = '/var/lib/mongodb-mms-automation/mms-cluster-config-backup.json'
 default['mongodb3']['config']['mms']['logLevel'] = 'INFO'
 default['mongodb3']['config']['mms']['maxLogFiles'] = 10
 default['mongodb3']['config']['mms']['maxLogFileSize'] = 268435456
-default['mongodb3']['config']['mms']['httpProxy'] = nil
-
 ```
+
+#### Attributes for monitoring agent.
+https://docs.opsmanager.mongodb.com/current/reference/monitoring-agent
+```
+default['mongodb3']['config']['mms']['useSslForAllConnections'] = nil
+default['mongodb3']['config']['mms']['sslClientCertificate'] = nil
+default['mongodb3']['config']['mms']['sslClientCertificatePassword'] = nil
+default['mongodb3']['config']['mms']['sslTrustedServerCertificates'] = nil
+default['mongodb3']['config']['mms']['sslRequireValidServerCertificates'] = nil
+default['mongodb3']['config']['mms']['krb5Principal'] = nil
+default['mongodb3']['config']['mms']['krb5Keytab'] = nil
+default['mongodb3']['config']['mms']['gsappiServiceName'] = nil
+default['mongodb3']['config']['mms']['enableMunin'] = nil
+```
+
 
 ## Usage
 
@@ -738,8 +764,24 @@ maxLogFileSize=268435456
 #
 #httpProxy=
 
+#
+# The absolute path to an non-system-standard location for the Kerberos configuration file
+#
+#krb5ConfigLocation=
+
+#
+# The path on disk that contains the trusted certificate authority certificates in PEM format.
+#
+#sslTrustedMMSServerCertificate=
+
+#
+# Use this option to disable certificate verification by setting this value to false.
+#
+#sslRequireValidMMSServerCertificates=
+
 # For additional optional settings, please see
 # https://docs.cloud.mongodb.com/reference/automation-agent/
+
 
 ```
 
@@ -789,6 +831,72 @@ mmsApiKey=apikeykekekekeke
 # Hostname of the MMS monitoring web server.
 #
 mmsBaseUrl=https://api-agents.mongodb.com
+
+#
+# URL to proxy all HTTP requests through
+#
+#httpProxy=
+
+#
+# Set to true to enable SSL support globally and to use SSL for all MongoDB connections.
+#
+#useSslForAllConnections=
+
+#
+# The path to the private key, client certificate, and optional intermediate certificates in PEM format
+#
+#sslClientCertificate=
+
+#
+# The password needed to decrypt the private key in the file specified in sslClientCertificate.
+#
+#sslClientCertificatePassword=
+
+#
+# The path on disk that contains the trusted certificate authority certificates in PEM format.
+#
+#sslTrustedServerCertificates=
+
+#
+# Use this option to disable certificate verification by setting this value to false.
+#
+#sslRequireValidServerCertificates=
+
+#
+# The Kerberos principal used by the agent.
+#
+#krb5Principal=
+
+#
+# The absolute path to Kerberos principal’s keytab file.
+#
+#krb5Keytab=
+
+#
+# The absolute path to an non-system-standard location for the Kerberos configuration file.
+#
+#krb5ConfigLocation=
+
+#
+# The default service name used by MongoDB is mongodb can specify a custom service name with the gssapiServiceName option.
+#
+#gsappiServiceName=
+
+#
+# By default the Monitoring Agent will use the trusted root CAs installed on the system. If the agent cannot find the trusted root CAs, configure these settings manually.
+#
+#sslTrustedMMSServerCertificate=
+
+#
+# You can disable certificate verification by setting this value to false.
+#
+#sslRequireValidMMSServerCertificates=
+
+#
+# Set to false if you do not with the Monitoring Agent to collect hardware statistics via Munin-node.
+#
+#enableMunin=
+
 
 # For additional optional settings, please see
 # https://docs.cloud.mongodb.com/reference/monitoring-agent/
