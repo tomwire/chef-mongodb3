@@ -86,14 +86,9 @@ service 'mongod' do
       end
   end
 
-  start = "mongod --keyFile /keyfile/mongodb-keyfile --dbpath /data --replSet 'ign-mongo-replicaset'" 
-  stop = "pkill -9 mongod"
   action :enable
   subscribes :restart, "template[#{node['mongodb3']['mongod']['config_file']}]", :delayed
   subscribes :restart, "template[#{node['mongodb3']['config']['mongod']['security']['keyFile']}", :delayed
-  start_command start
-  stop_command stop
-  restart_command "#{stop}; #{start}"
   supports :start => true, :stop => true, :restart => true, :status => true
 
 end

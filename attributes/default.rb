@@ -142,7 +142,7 @@ default['mongodb3']['config']['mongod']['net']['ssl']['FIPSMode'] = nil
 
 # security Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-options
 default['mongodb3']['config']['mongod']['security']['keyFile'] = '/keyfile/mongodb-keyfile'
-default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = 'keyfile'
+default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = 'keyFile'
 default['mongodb3']['config']['mongod']['security']['authorization'] = 'true'
 default['mongodb3']['config']['mongod']['security']['javascriptEnabled'] = nil # default : true
 
