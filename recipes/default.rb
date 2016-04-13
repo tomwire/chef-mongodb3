@@ -85,7 +85,7 @@ service 'mongod' do
         provider Chef::Provider::Service::Upstart
       end
   end
-  start = "sudo mongod --replSet 'ign-mongo-replicaset' -f /etc/mongod.conf --dbpath /data"
+  start = "sudo mongod -f /etc/mongod.conf"
   stop = "sudo pkill mongo"
   restart = "#{stop};#{start}"
 
