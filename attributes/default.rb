@@ -18,7 +18,7 @@
 #
 
 # MongoDB version to install
-default['mongodb3']['version'] = '3.2.1'
+default['mongodb3']['version'] = '3.2.4'
 
 # Please note : The default values for ['mongodb3']['package'] attributes will be set in `package_repo` recipe.
 # but, You can set custom values for yum/apt repo url, yum package version or apt related in your wrapper
@@ -42,7 +42,7 @@ case node['platform_family']
   when 'rhel', 'fedora'
     mongo_user = 'mongod'
     mongo_group = 'mongod'
-    mongo_dbpath = '/var/lib/mongo'
+    mongo_dbpath = '/data'
     # To guarantee the compatibility for centos 6 in previous version of mongodb3 cookbook
     if node['platform_version'].to_i >= 7
       mongo_pid_file = '/var/run/mongodb/mongod.pid'
@@ -53,7 +53,7 @@ case node['platform_family']
   when 'debian'
     mongo_user = 'mongodb'
     mongo_group = 'mongodb'
-    mongo_dbpath = '/var/lib/mongodb'
+    mongo_dbpath = '/data'
     mongo_pid_file = nil
     config_processManagement_fork = nil
 end
@@ -85,7 +85,7 @@ default['mongodb3']['config']['mongod']['systemLog']['verbosity'] = nil # defaul
 default['mongodb3']['config']['mongod']['systemLog']['quiet'] = nil # default : false
 default['mongodb3']['config']['mongod']['systemLog']['traceAllException'] = nil # default : false
 default['mongodb3']['config']['mongod']['systemLog']['syslogFacility'] = nil # default : 'user'
-default['mongodb3']['config']['mongod']['systemLog']['path'] = '/var/log/mongodb/mongod.log'
+default['mongodb3']['config']['mongod']['systemLog']['path'] = '/log/mongod.log'
 default['mongodb3']['config']['mongod']['systemLog']['logAppend'] = true # default : false
 default['mongodb3']['config']['mongod']['systemLog']['logRotate'] = nil # default : 'rename'
 default['mongodb3']['config']['mongod']['systemLog']['destination'] = 'file' # default : 'file'
@@ -125,7 +125,7 @@ default['mongodb3']['config']['mongod']['net']['unixDomainSocket']['filePermissi
 # net.http Options : http://docs.mongodb.org/manual/reference/configuration-options/#net-http-options
 default['mongodb3']['config']['mongod']['net']['http']['enabled'] = nil # default : false
 default['mongodb3']['config']['mongod']['net']['http']['JSONPEnabled'] = nil # default : false
-default['mongodb3']['config']['mongod']['net']['http']['RESTInterfaceEnabled'] = nil # default : false
+default['mongodb3']['config']['mongod']['net']['http']['RESTInterfaceEnabled'] = false # default : false
 
 # net.ssl Options : http://docs.mongodb.org/manual/reference/configuration-options/#net-ssl-options
 default['mongodb3']['config']['mongod']['net']['ssl']['mode'] = nil
@@ -141,9 +141,9 @@ default['mongodb3']['config']['mongod']['net']['ssl']['allowInvalidHostnames'] =
 default['mongodb3']['config']['mongod']['net']['ssl']['FIPSMode'] = nil
 
 # security Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-options
-default['mongodb3']['config']['mongod']['security']['keyFile'] = nil
-default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = nil
-default['mongodb3']['config']['mongod']['security']['authorization'] = 'disabled'
+default['mongodb3']['config']['mongod']['security']['keyFile'] = '/keyfile/mongodb-keyfile'
+default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = 'keyfile'
+default['mongodb3']['config']['mongod']['security']['authorization'] = 'true'
 default['mongodb3']['config']['mongod']['security']['javascriptEnabled'] = nil # default : true
 
 # security.sasl Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-sasl-options
@@ -183,7 +183,7 @@ default['mongodb3']['config']['mongod']['operationProfiling']['mode'] = nil # de
 
 # replication Options : http://docs.mongodb.org/manual/reference/configuration-options/#replication-options
 default['mongodb3']['config']['mongod']['replication']['oplogSizeMB'] = nil
-default['mongodb3']['config']['mongod']['replication']['replSetName'] = nil
+default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'ign-mongo-replicaset' 
 default['mongodb3']['config']['mongod']['replication']['secondaryIndexPrefetch'] = nil # default : 'all'
 
 # sharding Options : http://docs.mongodb.org/manual/reference/configuration-options/#sharding-options
@@ -213,10 +213,30 @@ default['mongodb3']['config']['mongos']['sharding']['autoSplit'] = true # defaul
 default['mongodb3']['config']['mongos']['sharding']['configDB'] = nil
 default['mongodb3']['config']['mongos']['sharding']['chunkSize'] = 64 # default : 64
 
-# MMS automation agent config attribute
-default['mongodb3']['config']['mms']['mmsGroupId'] = nil
-default['mongodb3']['config']['mms']['mmsApiKey'] = nil
+# MMS automation and monitoring agent config attributes
+## common attributes for both automation and monitoring agent
+default['mongodb3']['config']['mms']['mmsApiKey'] = '08103044-f50d-40b6-b5a1-41770645651a'
+default['mongodb3']['config']['mms']['mmsBaseUrl'] = 'https://api-agents.mongodb.com'
+default['mongodb3']['config']['mms']['httpProxy'] = nil
+default['mongodb3']['config']['mms']['krb5ConfigLocation'] = nil
+default['mongodb3']['config']['mms']['sslTrustedMMSServerCertificate'] = nil
+default['mongodb3']['config']['mms']['sslRequireValidMMSServerCertificates'] = nil
+
+## Attributes for automation agent
+default['mongodb3']['config']['mms']['mmsGroupId'] = '57054245e4b054afad2af4a1'
+default['mongodb3']['config']['mms']['logFile'] = '/var/log/mongodb-mms-automation/automation-agent.log'
+default['mongodb3']['config']['mms']['mmsConfigBackup'] = '/var/lib/mongodb-mms-automation/mms-cluster-config-backup.json'
 default['mongodb3']['config']['mms']['logLevel'] = 'INFO'
 default['mongodb3']['config']['mms']['maxLogFiles'] = 10
 default['mongodb3']['config']['mms']['maxLogFileSize'] = 268435456
-default['mongodb3']['config']['mms']['httpProxy'] = nil
+
+## Attributes for monitoring agent
+default['mongodb3']['config']['mms']['useSslForAllConnections'] = nil
+default['mongodb3']['config']['mms']['sslClientCertificate'] = nil
+default['mongodb3']['config']['mms']['sslClientCertificatePassword'] = nil
+default['mongodb3']['config']['mms']['sslTrustedServerCertificates'] = nil
+default['mongodb3']['config']['mms']['sslRequireValidServerCertificates'] = nil
+default['mongodb3']['config']['mms']['krb5Principal'] = nil
+default['mongodb3']['config']['mms']['krb5Keytab'] = nil
+default['mongodb3']['config']['mms']['gsappiServiceName'] = nil
+default['mongodb3']['config']['mms']['enableMunin'] = nil
