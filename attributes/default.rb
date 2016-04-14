@@ -69,7 +69,7 @@ default['mongodb3']['mongod']['config_file'] = '/etc/mongod.conf'
 default['mongodb3']['mongos']['config_file'] = '/etc/mongos.conf'
 
 # Key file contents
-default['mongodb3']['config']['key_file_content'] = '/etc/keyfile/mongodb-keyfile' 
+default['mongodb3']['config']['key_file_content'] = nil 
 
 # Key server
 default['mongodb3']['keyserver'] = 'hkp://keyserver.ubuntu.com:80'
@@ -112,7 +112,7 @@ default['mongodb3']['config']['mongod']['processManagement']['pidFilePath'] = mo
 
 # net Options : http://docs.mongodb.org/manual/reference/configuration-options/#net-options
 default['mongodb3']['config']['mongod']['net']['port'] = 27017
-default['mongodb3']['config']['mongod']['net']['bindIp'] = nil # default : '0.0.0.0'
+default['mongodb3']['config']['mongod']['net']['bindIp'] = '0.0.0.0' # default : '0.0.0.0'
 default['mongodb3']['config']['mongod']['net']['maxIncomingConnections'] = nil # default : 65536
 default['mongodb3']['config']['mongod']['net']['wireObjectCheck'] = nil # default : true
 default['mongodb3']['config']['mongod']['net']['ipv6'] = nil # default : false
@@ -143,7 +143,7 @@ default['mongodb3']['config']['mongod']['net']['ssl']['FIPSMode'] = nil
 # security Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-options
 default['mongodb3']['config']['mongod']['security']['keyFile'] = '/keyfile/mongodb-keyfile'
 default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = 'keyFile'
-default['mongodb3']['config']['mongod']['security']['authorization'] = 'disabled' #enabled or disabled
+default['mongodb3']['config']['mongod']['security']['authorization'] = 'enabled' #enabled or disabled
 default['mongodb3']['config']['mongod']['security']['javascriptEnabled'] = nil # default : true
 
 # security.sasl Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-sasl-options

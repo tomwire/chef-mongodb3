@@ -77,3 +77,15 @@ template node['mongodb3']['mongod']['config_file'] do
   helpers Mongodb3Helper
 end
 
+# Start the mongod service
+service 'mongod' do
+  start = "sudo mongod -f /etc/mongod.conf"
+  stop = "sudo pkill mongo"
+  restart = "#{stop};#{start}"
+
+  action :enable
+  #subscribes :restart, "template[#{node['mongodb3']['mongod']['config_file']}]", :delayed
+  #subscribes :restart, "template[#{node['mongodb3']['config']['mongod']['security']['keyFile']}", :delayed
+  supports :start => true, :stop => true, :restart => true
+  
+end
