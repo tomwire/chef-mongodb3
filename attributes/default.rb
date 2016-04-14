@@ -69,7 +69,7 @@ default['mongodb3']['mongod']['config_file'] = '/etc/mongod.conf'
 default['mongodb3']['mongos']['config_file'] = '/etc/mongos.conf'
 
 # Key file contents
-default['mongodb3']['config']['key_file_content'] = nil
+default['mongodb3']['config']['key_file_content'] = '/etc/keyfile/mongodb-keyfile' 
 
 # Key server
 default['mongodb3']['keyserver'] = 'hkp://keyserver.ubuntu.com:80'
@@ -143,7 +143,7 @@ default['mongodb3']['config']['mongod']['net']['ssl']['FIPSMode'] = nil
 # security Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-options
 default['mongodb3']['config']['mongod']['security']['keyFile'] = '/keyfile/mongodb-keyfile'
 default['mongodb3']['config']['mongod']['security']['clusterAuthMode'] = 'keyFile'
-default['mongodb3']['config']['mongod']['security']['authorization'] = 'enabled' #enabled or disabled
+default['mongodb3']['config']['mongod']['security']['authorization'] = 'disabled' #enabled or disabled
 default['mongodb3']['config']['mongod']['security']['javascriptEnabled'] = nil # default : true
 
 # security.sasl Options : http://docs.mongodb.org/manual/reference/configuration-options/#security-sasl-options
@@ -203,7 +203,7 @@ default['mongodb3']['config']['mongod']['snmp']['master'] = nil
 # Mongos config
 default['mongodb3']['config']['mongos']['net']['port'] = 27018 # default : 27017
 default['mongodb3']['config']['mongos']['net']['bindIp'] = '127.0.0.1' # default : '0.0.0.0'
-default['mongodb3']['config']['mongos']['systemLog']['path'] = '/var/log/mongodb/mongos.log'
+default['mongodb3']['config']['mongos']['systemLog']['path'] = '/log/mongos.log'
 default['mongodb3']['config']['mongos']['systemLog']['logAppend'] = true # default : false
 default['mongodb3']['config']['mongos']['systemLog']['destination'] = 'file' # default : 'file'
 
@@ -224,7 +224,7 @@ default['mongodb3']['config']['mms']['sslRequireValidMMSServerCertificates'] = n
 
 ## Attributes for automation agent
 default['mongodb3']['config']['mms']['mmsGroupId'] = '57054245e4b054afad2af4a1'
-default['mongodb3']['config']['mms']['logFile'] = '/var/log/mongodb-mms-automation/automation-agent.log'
+default['mongodb3']['config']['mms']['logFile'] = '/log/mongodb-mms-automation/automation-agent.log'
 default['mongodb3']['config']['mms']['mmsConfigBackup'] = '/var/lib/mongodb-mms-automation/mms-cluster-config-backup.json'
 default['mongodb3']['config']['mms']['logLevel'] = 'INFO'
 default['mongodb3']['config']['mms']['maxLogFiles'] = 10
