@@ -18,7 +18,7 @@
 #
 
 # MongoDB version to install
-default['mongodb3']['version'] = '3.2.4'
+default['mongodb3']['version'] = '2.4.3'
 
 # Please note : The default values for ['mongodb3']['package'] attributes will be set in `package_repo` recipe.
 # but, You can set custom values for yum/apt repo url, yum package version or apt related in your wrapper
@@ -183,7 +183,7 @@ default['mongodb3']['config']['mongod']['operationProfiling']['mode'] = nil # de
 
 # replication Options : http://docs.mongodb.org/manual/reference/configuration-options/#replication-options
 default['mongodb3']['config']['mongod']['replication']['oplogSizeMB'] = nil
-default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'ign-mongo-replicaset' 
+default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'lhotse' 
 default['mongodb3']['config']['mongod']['replication']['secondaryIndexPrefetch'] = nil # default : 'all'
 
 # sharding Options : http://docs.mongodb.org/manual/reference/configuration-options/#sharding-options
