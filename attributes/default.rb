@@ -112,7 +112,7 @@ default['mongodb3']['config']['mongod']['processManagement']['pidFilePath'] = mo
 
 # net Options : http://docs.mongodb.org/manual/reference/configuration-options/#net-options
 default['mongodb3']['config']['mongod']['net']['port'] = 27017
-default['mongodb3']['config']['mongod']['net']['bindIp'] = nil # default : '0.0.0.0'
+default['mongodb3']['config']['mongod']['net']['bindIp'] = '0.0.0.0' # default : '0.0.0.0'
 default['mongodb3']['config']['mongod']['net']['maxIncomingConnections'] = nil # default : 65536
 default['mongodb3']['config']['mongod']['net']['wireObjectCheck'] = nil # default : true
 default['mongodb3']['config']['mongod']['net']['ipv6'] = nil # default : false
@@ -183,7 +183,7 @@ default['mongodb3']['config']['mongod']['operationProfiling']['mode'] = nil # de
 
 # replication Options : http://docs.mongodb.org/manual/reference/configuration-options/#replication-options
 default['mongodb3']['config']['mongod']['replication']['oplogSizeMB'] = nil
-default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'lhotse' 
+default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'CHANGE ME'
 default['mongodb3']['config']['mongod']['replication']['secondaryIndexPrefetch'] = nil # default : 'all'
 
 # sharding Options : http://docs.mongodb.org/manual/reference/configuration-options/#sharding-options
